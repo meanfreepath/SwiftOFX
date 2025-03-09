@@ -7,7 +7,14 @@ class ParserSystemTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    let path = Bundle(for: type(of: self)).path(forResource: "example", ofType: "ofx")!
+    let bundle: Bundle
+    #if SWIFT_PACKAGE
+    bundle = Bundle.module
+    #else
+    bundle = Bundle(for: type(of: self))
+    #endif
+
+    let path = bundle.path(forResource: "example", ofType: "ofx")!
     data = FileManager.default.contents(atPath: path)!
   }
 
